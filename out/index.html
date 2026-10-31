@@ -1410,16 +1410,21 @@
       top: -20%;
       transform: translateX(-50%);
       opacity: 0.8;
+      transition: opacity 600ms ease;
       mix-blend-mode: screen;
       filter: blur(64px);
       -webkit-filter: blur(64px);
-      will-change: transform;
+      will-change: transform, opacity;
       pointer-events: none;
       background:
         radial-gradient(circle at 30% 35%, var(--glow-purple) 0%, transparent 55%),
         radial-gradient(circle at 70% 30%, var(--glow-blue) 0%, transparent 50%),
         radial-gradient(circle at 40% 70%, var(--glow-magenta) 0%, transparent 55%),
         radial-gradient(circle at 65% 65%, var(--glow-teal) 0%, transparent 50%);
+    }
+    .portfolio-glow-fallback.is-hidden{
+      opacity: 0 !important;
+      pointer-events: none;
     }
     .portfolio-glow-video{
       position: absolute;
@@ -1442,14 +1447,6 @@
     }
     .portfolio-glow-video.is-hidden{
       display: none !important;
-    }
-    @media (prefers-reduced-motion: reduce){
-      .portfolio-glow-video{
-        display: none !important;
-      }
-      .portfolio-glow-fallback{
-        opacity: 0.8 !important;
-      }
     }
     .pf-label{
       font-size:.85rem;letter-spacing:3px;text-transform:uppercase;
@@ -2773,42 +2770,130 @@ function initMobileNav() {
 
 /* ─── PORTFOLIO SHOWCASE ATMOSPHERIC GLOW VIDEO ─────────────────────── */
 const PORTFOLIO_GLOW_VIDEO_SRC = './portfolio-showcase-glow.mp4';
+const RESPECT_REDUCED_MOTION = true;
 
 function initPortfolioGlowVideo() {
+  const section = document.getElementById('portfolio-showcase');
   const video = document.getElementById('portfolio-glow-video');
   const fallback = document.getElementById('portfolio-glow-fallback');
-  if (!video) return;
+  if (!video || !fallback || !section) return;
 
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (prefersReducedMotion) {
-    try { video.pause(); } catch(e) {}
+  const reducedMotionDetected = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  console.log('Reduced motion detected:', reducedMotionDetected);
+
+  if (RESPECT_REDUCED_MOTION && reducedMotionDetected) {
+    try { video.pause(); } catch (e) {}
     video.classList.add('is-hidden');
     return;
   }
 
-  function handleVideoReady() {
-    video.classList.add('is-loaded');
+  // Programmatic muted requirement for reliable autoplay
+  video.muted = true;
+  video.defaultMuted = true;
+
+  if (!video.src || video.src === '') {
+    video.src = PORTFOLIO_GLOW_VIDEO_SRC;
+  }
+
+  let isPlaying = false;
+  let retryAttached = false;
+  let sectionVisible = true;
+  let fallbackTimeout = null;
+
+  function startFallbackTimeout() {
+    if (fallbackTimeout || isPlaying) return;
+    fallbackTimeout = setTimeout(() => {
+      if (!isPlaying) {
+        console.warn('Portfolio showcase background video failed to play within 3s; fallback gradient remains active.');
+        fallback.classList.remove('is-hidden');
+      }
+    }, 3000);
+  }
+
+  function playVideo() {
+    if (!sectionVisible) return;
+    startFallbackTimeout();
     try {
+      video.muted = true;
       const playPromise = video.play();
       if (playPromise !== undefined) {
         playPromise.catch(() => {
-          /* Autoplay blocked by policy; keep fallback visible */
+          attachAutoplayRetry();
         });
       }
-    } catch(e) {}
+    } catch (e) {
+      attachAutoplayRetry();
+    }
   }
 
-  function handleVideoError() {
+  function handlePlaying() {
+    isPlaying = true;
+    if (fallbackTimeout) {
+      clearTimeout(fallbackTimeout);
+      fallbackTimeout = null;
+    }
+    video.classList.remove('is-hidden');
+    video.classList.add('is-loaded');
+    fallback.classList.add('is-hidden');
+    detachAutoplayRetry();
+  }
+
+  function handleError(e) {
+    console.warn('Portfolio showcase background video encountered an error; fallback gradient remains active.', e || video.error);
+    if (fallbackTimeout) {
+      clearTimeout(fallbackTimeout);
+      fallbackTimeout = null;
+    }
     video.classList.add('is-hidden');
     video.classList.remove('is-loaded');
+    fallback.classList.remove('is-hidden');
   }
 
-  video.addEventListener('loadeddata', handleVideoReady);
-  video.addEventListener('canplay', handleVideoReady);
-  video.addEventListener('error', handleVideoError);
+  // Autoplay retry on first pointerdown, touchstart, or scroll
+  function onUserInteraction() {
+    detachAutoplayRetry();
+    playVideo();
+  }
 
-  if (video.readyState >= 2) {
-    handleVideoReady();
+  function attachAutoplayRetry() {
+    if (retryAttached || isPlaying) return;
+    retryAttached = true;
+    window.addEventListener('pointerdown', onUserInteraction, { once: true, passive: true });
+    window.addEventListener('touchstart', onUserInteraction, { once: true, passive: true });
+    window.addEventListener('scroll', onUserInteraction, { once: true, passive: true });
+  }
+
+  function detachAutoplayRetry() {
+    if (!retryAttached) return;
+    retryAttached = false;
+    window.removeEventListener('pointerdown', onUserInteraction);
+    window.removeEventListener('touchstart', onUserInteraction);
+    window.removeEventListener('scroll', onUserInteraction);
+  }
+
+  video.addEventListener('playing', handlePlaying);
+  video.addEventListener('canplay', () => {
+    if (sectionVisible) playVideo();
+  });
+  video.addEventListener('error', handleError);
+
+  // Initial play call on mount
+  playVideo();
+
+  // IntersectionObserver to pause when offscreen and resume when visible
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        sectionVisible = entry.isIntersecting;
+        if (sectionVisible) {
+          playVideo();
+        } else {
+          try { video.pause(); } catch (e) {}
+        }
+      });
+    }, { rootMargin: '100px 0px', threshold: 0 });
+
+    observer.observe(section);
   }
 }
 
