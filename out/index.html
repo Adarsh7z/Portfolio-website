@@ -28,6 +28,11 @@
       --accent-glow:rgba(96,165,250,0.15);
       --border:rgba(215,226,234,0.15);
       --border-hover:rgba(118,33,177,0.5);
+      --glow-base: oklch(0.12 0.02 290);
+      --glow-purple: oklch(0.55 0.25 295);
+      --glow-blue: oklch(0.45 0.22 255);
+      --glow-teal: oklch(0.65 0.15 190);
+      --glow-magenta: oklch(0.60 0.24 330);
     }
     html{scroll-behavior:smooth}
     body{
@@ -1377,11 +1382,74 @@
 
     /* === 3D COVERFLOW PORTFOLIO SHOWCASE === */
     #portfolio-showcase{
-      background:radial-gradient(ellipse at 30% 50%,rgba(120,20,40,.8) 0%,rgba(30,10,50,.9) 50%,#0a0a0f 100%);
-      padding:6rem 2.5rem;
-      text-align:center;
-      overflow:hidden;
-      position:relative;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background: var(--glow-base);
+      padding: 6rem 2.5rem;
+      text-align: center;
+    }
+    .portfolio-content-wrap{
+      position: relative;
+      z-index: 10;
+    }
+    .portfolio-glow-bg{
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%);
+    }
+    .portfolio-glow-fallback{
+      position: absolute;
+      width: 140%;
+      height: 150%;
+      left: 50%;
+      top: -20%;
+      transform: translateX(-50%);
+      opacity: 0.8;
+      mix-blend-mode: screen;
+      filter: blur(64px);
+      -webkit-filter: blur(64px);
+      will-change: transform;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 30% 35%, var(--glow-purple) 0%, transparent 55%),
+        radial-gradient(circle at 70% 30%, var(--glow-blue) 0%, transparent 50%),
+        radial-gradient(circle at 40% 70%, var(--glow-magenta) 0%, transparent 55%),
+        radial-gradient(circle at 65% 65%, var(--glow-teal) 0%, transparent 50%);
+    }
+    .portfolio-glow-video{
+      position: absolute;
+      width: 140%;
+      height: 150%;
+      left: 50%;
+      top: -20%;
+      transform: translateX(-50%);
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 600ms ease;
+      mix-blend-mode: screen;
+      filter: blur(64px);
+      -webkit-filter: blur(64px);
+      will-change: transform, opacity;
+      pointer-events: none;
+    }
+    .portfolio-glow-video.is-loaded{
+      opacity: 0.8;
+    }
+    .portfolio-glow-video.is-hidden{
+      display: none !important;
+    }
+    @media (prefers-reduced-motion: reduce){
+      .portfolio-glow-video{
+        display: none !important;
+      }
+      .portfolio-glow-fallback{
+        opacity: 0.8 !important;
+      }
     }
     .pf-label{
       font-size:.85rem;letter-spacing:3px;text-transform:uppercase;
@@ -1863,29 +1931,48 @@
 
 <!-- ======= 3D COVERFLOW PORTFOLIO SHOWCASE ======= -->
 <section id="portfolio-showcase">
-  <p class="pf-label fade-el">SELECTED WORK</p>
-  <h2 class="section-heading hg fade-el">Portfolio Showcase</h2>
-
-  <div class="filter-tabs fade-el d1">
-    <button class="filter-tab active" data-filter="all">All</button>
-    <button class="filter-tab" data-filter="web">Web Design</button>
-    <button class="filter-tab" data-filter="video">Video Editing</button>
-    <button class="filter-tab" data-filter="marketing">Marketing</button>
+  <!-- Atmospheric Gradient Video Background & CSS Fallback -->
+  <div class="portfolio-glow-bg" aria-hidden="true">
+    <div class="portfolio-glow-fallback" id="portfolio-glow-fallback"></div>
+    <video
+      id="portfolio-glow-video"
+      class="portfolio-glow-video"
+      autoplay
+      loop
+      muted
+      playsinline
+      preload="auto"
+      tabindex="-1"
+      aria-hidden="true"
+      src="./portfolio-showcase-glow.mp4"
+    ></video>
   </div>
 
-  <div class="coverflow-wrap" id="coverflow-carousel">
-    <!-- Cards built by JS -->
-  </div>
+  <div class="portfolio-content-wrap">
+    <p class="pf-label fade-el">SELECTED WORK</p>
+    <h2 class="section-heading hg fade-el">Portfolio Showcase</h2>
 
-  <div class="cf-dots" id="cf-dots"></div>
+    <div class="filter-tabs fade-el d1">
+      <button class="filter-tab active" data-filter="all">All</button>
+      <button class="filter-tab" data-filter="web">Web Design</button>
+      <button class="filter-tab" data-filter="video">Video Editing</button>
+      <button class="filter-tab" data-filter="marketing">Marketing</button>
+    </div>
 
-  <div class="cf-arrows">
-    <button class="cf-arrow" id="cf-prev" aria-label="Previous card">
-      <i class="fa-solid fa-chevron-left"></i>
-    </button>
-    <button class="cf-arrow" id="cf-next" aria-label="Next card">
-      <i class="fa-solid fa-chevron-right"></i>
-    </button>
+    <div class="coverflow-wrap" id="coverflow-carousel">
+      <!-- Cards built by JS -->
+    </div>
+
+    <div class="cf-dots" id="cf-dots"></div>
+
+    <div class="cf-arrows">
+      <button class="cf-arrow" id="cf-prev" aria-label="Previous card">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <button class="cf-arrow" id="cf-next" aria-label="Next card">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
   </div>
 </section>
 
@@ -2684,8 +2771,50 @@ function initMobileNav() {
   });
 }
 
+/* ─── PORTFOLIO SHOWCASE ATMOSPHERIC GLOW VIDEO ─────────────────────── */
+const PORTFOLIO_GLOW_VIDEO_SRC = './portfolio-showcase-glow.mp4';
+
+function initPortfolioGlowVideo() {
+  const video = document.getElementById('portfolio-glow-video');
+  const fallback = document.getElementById('portfolio-glow-fallback');
+  if (!video) return;
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) {
+    try { video.pause(); } catch(e) {}
+    video.classList.add('is-hidden');
+    return;
+  }
+
+  function handleVideoReady() {
+    video.classList.add('is-loaded');
+    try {
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          /* Autoplay blocked by policy; keep fallback visible */
+        });
+      }
+    } catch(e) {}
+  }
+
+  function handleVideoError() {
+    video.classList.add('is-hidden');
+    video.classList.remove('is-loaded');
+  }
+
+  video.addEventListener('loadeddata', handleVideoReady);
+  video.addEventListener('canplay', handleVideoReady);
+  video.addEventListener('error', handleVideoError);
+
+  if (video.readyState >= 2) {
+    handleVideoReady();
+  }
+}
+
 /* ─── INIT ──────────────────────────────────────────────────────────── */
 
+initPortfolioGlowVideo();
 initYouTubeFacade();
 initLightbox();
 initStackingCards();
