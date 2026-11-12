@@ -123,7 +123,7 @@
     }
     .btn-contact:hover{transform:scale(1.05);box-shadow:0 8px 25px rgba(182,0,168,0.4)}
 
-    /* === GLOW BUTTON SYSTEM (Uiverse by SelfMadeSystem adapted for portfolio palette) === */
+    /* === GLOW BUTTON SYSTEM (Clean spinning neon border, zero background glow) === */
     .glow-btn {
       --warm: #ff5c7a;
       --warm-soft: #ffc2cf;
@@ -148,12 +148,13 @@
       box-sizing: border-box;
       transition: transform 0.25s ease;
       outline: none;
+      overflow: hidden; /* Guaranteed zero glow bleed into background or sides */
     }
 
     .glow-btn__spin {
       position: absolute;
       inset: 0;
-      z-index: -1;
+      z-index: 0;
       overflow: hidden;
       border-radius: var(--glow-r);
       pointer-events: none;
@@ -163,7 +164,17 @@
       content: "";
       position: absolute;
       inset: -150%;
-      animation: glow-spin 8s cubic-bezier(0.56, 0.15, 0.28, 0.86) infinite, glow-pulse 4s ease-in-out infinite;
+      background: conic-gradient(
+        from 0deg,
+        #ffffff 0deg,
+        var(--warm) 40deg,
+        #c81ee0 100deg,
+        rgba(123, 61, 255, 0.3) 160deg,
+        var(--cool) 220deg,
+        #ffffff 290deg,
+        var(--warm) 360deg
+      );
+      animation: glow-spin 4s linear infinite;
       animation-play-state: paused;
     }
 
@@ -174,39 +185,13 @@
       will-change: transform;
     }
 
-    .glow-btn__spin--blur {
-      filter: blur(1.4em) url(#glow-unopaq);
-      -webkit-filter: blur(1.4em) url(#glow-unopaq);
-    }
-    .glow-btn__spin--blur::before {
-      background: linear-gradient(90deg, var(--warm) 30%, transparent 50%, var(--cool) 70%);
-    }
-
-    .glow-btn__spin--intense {
-      inset: -0.4em;
-      filter: blur(0.2em) url(#glow-unopaq-2);
-      -webkit-filter: blur(0.2em) url(#glow-unopaq-2);
-    }
-    .glow-btn__spin--intense::before {
-      background: linear-gradient(90deg, var(--warm-soft) 20%, transparent 45% 55%, var(--cool-soft) 80%);
-    }
-
-    .glow-btn__spin--inside {
-      inset: -2px;
-      filter: blur(2px) url(#glow-unopaq-3);
-      -webkit-filter: blur(2px) url(#glow-unopaq-3);
-    }
-    .glow-btn__spin--inside::before {
-      background: linear-gradient(90deg, var(--warm-soft) 30%, transparent 45% 55%, var(--cool-soft) 70%);
-    }
-
     .glow-btn__face {
       position: absolute;
       inset: 1.5px;
-      z-index: 0;
+      z-index: 1;
       border-radius: var(--glow-r);
       background: linear-gradient(123deg, #14011a 7%, #7b0070 37%, #4e1477 72%, #7e3000 100%);
-      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.15), inset 0 -2px 4px rgba(0, 0, 0, 0.4);
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.18), inset 0 -2px 4px rgba(0, 0, 0, 0.5);
       pointer-events: none;
       transition: background 0.3s ease;
     }
@@ -217,7 +202,7 @@
 
     .glow-btn__label {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -256,33 +241,14 @@
     }
 
     @keyframes glow-spin {
-      0% { transform: rotate(10deg); }
-      50% { transform: rotate(190deg); }
-      100% { transform: rotate(370deg); }
-    }
-
-    @keyframes glow-pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(0.8); }
-    }
-
-    @media (max-width: 767px) {
-      .glow-btn__spin--blur {
-        filter: blur(0.9em) url(#glow-unopaq);
-        -webkit-filter: blur(0.9em) url(#glow-unopaq);
-      }
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     @media (prefers-reduced-motion: reduce) {
       .glow-btn__spin::before {
         animation: none !important;
       }
-    }
-
-    @supports not (filter: url(#glow-unopaq)) {
-      .glow-btn__spin--blur { filter: blur(1.1em); -webkit-filter: blur(1.1em); }
-      .glow-btn__spin--intense { filter: blur(0.25em); -webkit-filter: blur(0.25em); }
-      .glow-btn__spin--inside { filter: blur(2.5px); -webkit-filter: blur(2.5px); }
     }
 
     .btn-outline{
@@ -2285,18 +2251,6 @@
 </head>
 <body>
 
-  <!-- Shared SVG Filters for Glow Buttons (rendered once, zero visual dimensions) -->
-  <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
-    <filter width="300%" x="-100%" height="300%" y="-100%" id="glow-unopaq">
-      <feColorMatrix values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 9 0"></feColorMatrix>
-    </filter>
-    <filter width="300%" x="-100%" height="300%" y="-100%" id="glow-unopaq-2">
-      <feColorMatrix values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 3 0"></feColorMatrix>
-    </filter>
-    <filter width="300%" x="-100%" height="300%" y="-100%" id="glow-unopaq-3">
-      <feColorMatrix values="1 0 0 0.2 0  0 1 0 0.2 0  0 0 1 0.2 0  0 0 0 2 0"></feColorMatrix>
-    </filter>
-  </svg>
 
 <!-- ======= HERO ======= -->
 <section id="hero">
@@ -2407,9 +2361,7 @@
           </div>
         </a>
         <button class="glow-btn hero-contact-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
-          <span class="glow-btn__spin glow-btn__spin--blur" aria-hidden="true"></span>
-          <span class="glow-btn__spin glow-btn__spin--intense" aria-hidden="true"></span>
-          <span class="glow-btn__spin glow-btn__spin--inside" aria-hidden="true"></span>
+          <span class="glow-btn__spin" aria-hidden="true"></span>
           <span class="glow-btn__face" aria-hidden="true"></span>
           <span class="glow-btn__label">Get In Touch</span>
         </button>
@@ -2448,9 +2400,7 @@
 
   <div style="margin-top:3.5rem;z-index:10;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center" class="fade-el d3">
     <button class="glow-btn about-contact-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
-      <span class="glow-btn__spin glow-btn__spin--blur" aria-hidden="true"></span>
-      <span class="glow-btn__spin glow-btn__spin--intense" aria-hidden="true"></span>
-      <span class="glow-btn__spin glow-btn__spin--inside" aria-hidden="true"></span>
+      <span class="glow-btn__spin" aria-hidden="true"></span>
       <span class="glow-btn__face" aria-hidden="true"></span>
       <span class="glow-btn__label">Contact Me</span>
     </button>
