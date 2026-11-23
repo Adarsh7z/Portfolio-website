@@ -1390,8 +1390,8 @@
         display: none;
       }
       .portfolio-glow-video, .portfolio-glow-fallback {
-        filter: blur(36px);
-        -webkit-filter: blur(36px);
+        filter: blur(9px);
+        -webkit-filter: blur(9px);
       }
 
       /* Core Competencies (Skills Grid) */
@@ -1765,18 +1765,22 @@
       mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%);
       -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%);
     }
+    /* The glow layers are drawn at 1/4 size and scaled up 4x. It looks the same as
+       a 140% x 150% layer with a 64px blur, but Safari only has to blur 1/16 of the
+       pixels on every video frame (the full-size blur froze the page on MacBooks). */
     .portfolio-glow-fallback{
       position: absolute;
-      width: 140%;
-      height: 150%;
-      left: 50%;
+      width: 35%;
+      height: 37.5%;
+      left: 32.5%;
       top: -20%;
-      transform: translateX(-50%);
+      transform: scale(4);
+      transform-origin: 50% 0;
       opacity: 0.8;
       transition: opacity 600ms ease;
       mix-blend-mode: screen;
-      filter: blur(64px);
-      -webkit-filter: blur(64px);
+      filter: blur(16px);
+      -webkit-filter: blur(16px);
       will-change: transform, opacity;
       pointer-events: none;
       background:
@@ -1791,17 +1795,18 @@
     }
     .portfolio-glow-video{
       position: absolute;
-      width: 140%;
-      height: 150%;
-      left: 50%;
+      width: 35%;
+      height: 37.5%;
+      left: 32.5%;
       top: -20%;
-      transform: translateX(-50%);
+      transform: scale(4);
+      transform-origin: 50% 0;
       object-fit: cover;
       opacity: 0;
       transition: opacity 600ms ease;
       mix-blend-mode: screen;
-      filter: blur(64px);
-      -webkit-filter: blur(64px);
+      filter: blur(16px);
+      -webkit-filter: blur(16px);
       will-change: transform, opacity;
       pointer-events: none;
     }
@@ -1845,13 +1850,17 @@
     }
 
     .coverflow-wrap{
-      perspective:1200px;display:flex;justify-content:center;align-items:center;
+      display:flex;justify-content:center;align-items:center;
       position:relative;height:520px;max-width:1000px;margin:0 auto;
     }
     .cf-card{
       position:absolute;width:200px;aspect-ratio:9/16;border-radius:20px;
       overflow:hidden;cursor:pointer;
-      transition:all 300ms ease-in-out;
+      /* each card carries its own perspective(), so cards never share a 3D space:
+         same coverflow look, but Safari hit-tests them like flat elements */
+      transition:transform 300ms ease-in-out,opacity 300ms ease-in-out,box-shadow 300ms ease-in-out,border-color 300ms ease-in-out;
+      -webkit-backface-visibility:hidden;backface-visibility:hidden;
+      -webkit-tap-highlight-color:transparent;
       box-shadow:0 20px 50px rgba(0,0,0,.6);
       border:1px solid rgba(255,255,255,.1);
       display:block;
@@ -1876,42 +1885,42 @@
       pointer-events:none;z-index:4;
     }
     .cf-card.cf-center{
-      transform:rotateY(0deg) translateZ(120px) scale(1.1);
+      transform:perspective(1200px) rotateY(0deg) translateZ(120px) scale(1.1);
       z-index:3;opacity:1;
     }
     .cf-card.cf-center:hover{
-      transform:rotateY(0deg) translateZ(120px) scale(1.1) translateY(-6px);
+      transform:perspective(1200px) rotateY(0deg) translateZ(120px) scale(1.1) translateY(-6px);
       box-shadow:0 30px 70px rgba(118,33,177,.55),0 0 35px rgba(168,85,247,.45);
       border-color:rgba(168,85,247,.8);
     }
     .cf-card.cf-left{
-      transform:rotateY(-38deg) translateX(-220px) translateZ(0px) scale(.85);
+      transform:perspective(1200px) rotateY(-38deg) translateX(-220px) translateZ(0px) scale(.85);
       z-index:2;opacity:.75;
     }
     .cf-card.cf-left:hover{
-      transform:rotateY(-38deg) translateX(-220px) translateZ(0px) scale(.85) translateY(-6px);
+      transform:perspective(1200px) rotateY(-38deg) translateX(-220px) translateZ(0px) scale(.85) translateY(-6px);
       box-shadow:0 25px 55px rgba(118,33,177,.35);
       border-color:rgba(168,85,247,.5);
     }
     .cf-card.cf-right{
-      transform:rotateY(38deg) translateX(220px) translateZ(0px) scale(.85);
+      transform:perspective(1200px) rotateY(38deg) translateX(220px) translateZ(0px) scale(.85);
       z-index:2;opacity:.75;
     }
     .cf-card.cf-right:hover{
-      transform:rotateY(38deg) translateX(220px) translateZ(0px) scale(.85) translateY(-6px);
+      transform:perspective(1200px) rotateY(38deg) translateX(220px) translateZ(0px) scale(.85) translateY(-6px);
       box-shadow:0 25px 55px rgba(118,33,177,.35);
       border-color:rgba(168,85,247,.5);
     }
     .cf-card.cf-far-left{
-      transform:rotateY(-55deg) translateX(-370px) translateZ(-80px) scale(.65);
+      transform:perspective(1200px) rotateY(-55deg) translateX(-370px) translateZ(-80px) scale(.65);
       z-index:1;opacity:.35;
     }
     .cf-card.cf-far-right{
-      transform:rotateY(55deg) translateX(370px) translateZ(-80px) scale(.65);
+      transform:perspective(1200px) rotateY(55deg) translateX(370px) translateZ(-80px) scale(.65);
       z-index:1;opacity:.35;
     }
     .cf-card.cf-hidden{
-      transform:translateZ(-200px) scale(0);
+      transform:perspective(1200px) translateZ(-200px) scale(0);
       z-index:0;opacity:0;pointer-events:none;
     }
     .cf-card.cf-coming-soon{
@@ -1922,7 +1931,7 @@
       cursor:default;
     }
     .cf-card.cf-coming-soon:hover{
-      transform:rotateY(0deg) translateZ(120px) scale(1.1) translateY(-6px);
+      transform:perspective(1200px) rotateY(0deg) translateZ(120px) scale(1.1) translateY(-6px);
       box-shadow:0 30px 70px rgba(118,33,177,.5), 0 0 35px rgba(168,85,247,.4);
       border-color:rgba(168,85,247,.7);
     }
@@ -3596,8 +3605,8 @@ const PORTFOLIO_DATA = [
     category: 'web',
     title: "Dr. Anam's Dental Clinic",
     desc: 'A modern, clean dental clinic website.',
-    poster: 'Anam dental thumbnail.webp',
-    link: 'https://dr-anams-dental-clinic.anamadarshreddy.workers.dev/',
+    poster: 'case-studies/dental-website-poster.webp',
+    link: 'https://anamsdentalclinic.pages.dev/',
     videoSrc: '',
     vimeoUrl: ''
   },
@@ -3694,7 +3703,7 @@ function initCoverflowCarousel() {
         const dot = document.createElement('button');
         dot.className = 'cf-dot' + (i === 0 ? ' active' : '');
         dot.setAttribute('aria-label', 'Go to ' + item.title);
-        dot.addEventListener('click', () => { currentIndex = i; updatePositions(); resetAuto(); });
+        dot.addEventListener('click', () => { currentIndex = i; updatePositions(); syncAuto(); });
         dotsWrap.appendChild(dot);
       }
     });
@@ -3759,7 +3768,7 @@ function initCoverflowCarousel() {
     e.preventDefault();
     currentIndex = index;
     updatePositions();
-    resetAuto();
+    syncAuto();
   }
 
   /* ── Auto-rotation ───────────────────────────────────────────── */
@@ -3776,19 +3785,37 @@ function initCoverflowCarousel() {
       filteredItems = f === 'all' ? [...PORTFOLIO_DATA] : PORTFOLIO_DATA.filter(it => it.category === f);
       currentIndex = 0;
       buildCards();
-      resetAuto();
+      syncAuto();
     });
   });
 
   /* ── Nav Arrows ──────────────────────────────────────────────── */
   const prev = document.getElementById('cf-prev');
   const next = document.getElementById('cf-next');
-  if (prev) prev.addEventListener('click', () => { goBack(); resetAuto(); });
-  if (next) next.addEventListener('click', () => { advance(); resetAuto(); });
+  if (prev) prev.addEventListener('click', () => { goBack(); syncAuto(); });
+  if (next) next.addEventListener('click', () => { advance(); syncAuto(); });
 
-  /* ── Pause auto-rotate on hover ──────────────────────────────── */
-  container.addEventListener('mouseenter', () => clearInterval(autoTimer));
-  container.addEventListener('mouseleave', () => resetAuto());
+  /* ── Pause auto-rotate only while a card is hovered or focused ──────
+     (pausing on the whole 1000px-wide area made the carousel look frozen
+     whenever a trackpad cursor rested anywhere near it) */
+  let inView = false;
+  let hovering = false;
+  function syncAuto() {
+    if (inView && !hovering && !document.hidden) resetAuto();
+    else clearInterval(autoTimer);
+  }
+  container.addEventListener('pointerover', e => {
+    if (e.pointerType === 'touch') return;
+    const on = !!e.target.closest('.cf-card');
+    if (on !== hovering) { hovering = on; syncAuto(); }
+  });
+  container.addEventListener('pointerleave', () => { if (hovering) { hovering = false; syncAuto(); } });
+  container.addEventListener('focusin', e => {
+    let kb = true; try { kb = e.target.matches(':focus-visible'); } catch (_) {}
+    if (kb) { hovering = true; syncAuto(); }
+  });
+  container.addEventListener('focusout', () => { hovering = false; syncAuto(); });
+  document.addEventListener('visibilitychange', syncAuto);
 
   /* ── Touch swipe support ─────────────────────────────────────── */
   let touchStartX = 0;
@@ -3805,7 +3832,7 @@ function initCoverflowCarousel() {
       const dy = e.changedTouches[0].clientY - touchStartY;
       if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
         dx > 0 ? goBack() : advance();
-        resetAuto();
+        syncAuto();
       }
     }
   }, { passive: true });
@@ -3813,12 +3840,11 @@ function initCoverflowCarousel() {
   /* ── Deferred init via IntersectionObserver ───────────────────── */
   const section = document.getElementById('portfolio-showcase');
   if (!section) return;
-  const obs = new IntersectionObserver((entries, observer) => {
-    if (entries[0].isIntersecting) {
-      buildCards();
-      resetAuto();
-      observer.disconnect();
-    }
+  let built = false;
+  const obs = new IntersectionObserver(entries => {
+    inView = entries[0].isIntersecting;
+    if (inView && !built) { built = true; buildCards(); }
+    syncAuto();
   }, { rootMargin: '200px 0px' });
   obs.observe(section);
 }
