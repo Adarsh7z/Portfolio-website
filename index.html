@@ -2119,6 +2119,383 @@
         0 3rem 3rem rgba(0, 0, 0, 0.3),
         0 1rem 1rem -0.6rem rgba(0, 0, 0, 0.8);
     }
+
+    /* ================================================================
+       CASE STUDY: CLINIC DESK (dental clinic dashboard)
+       Uses the site's tokens; bronze (--cs-bronze) is the clinic app's own brand colour.
+       ================================================================ */
+    #clinic-desk{
+      --cs-bronze:#B79F84;
+      --cs-bronze-deep:#A18667;
+      --cs-panel:#141417;
+      --cs-panel-2:#18181c;
+      --cs-line:rgba(215,226,234,.12);
+      position:relative;
+      z-index:25;
+      background:var(--bg);
+      padding:7rem 2.5rem 6rem;
+      overflow:hidden;
+    }
+    #clinic-desk::before{
+      content:'';
+      position:absolute;inset:0 0 auto 0;height:900px;
+      background:
+        radial-gradient(50% 45% at 50% 0%,rgba(118,33,177,.22),transparent 70%),
+        radial-gradient(35% 30% at 85% 30%,rgba(183,159,132,.10),transparent 70%);
+      pointer-events:none;
+    }
+    .cs-wrap{position:relative;max-width:1150px;margin:0 auto}
+    #clinic-desk img{height:auto}
+    .cs-intro{text-align:center;max-width:820px;margin:0 auto}
+    .cs-intro .section-heading{margin-bottom:1.5rem}
+    .cs-serif{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:0}
+    .cs-lead{
+      font-family:'Inter',sans-serif;
+      font-size:clamp(1.05rem,1.6vw,1.25rem);
+      line-height:1.65;color:var(--fg-muted);
+    }
+    .cs-lead strong{color:#fff;font-weight:600}
+
+    .cs-meta{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+      margin:2.75rem auto 0;max-width:980px;
+      background:var(--cs-line);border:1px solid var(--cs-line);border-radius:20px;overflow:hidden;
+      text-align:left;
+    }
+    .cs-meta div{background:var(--cs-panel);padding:1.1rem 1.25rem}
+    .cs-meta dt{font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:.35rem}
+    .cs-meta dd{font-family:'Inter',sans-serif;font-size:.95rem;color:#fff;font-weight:500;line-height:1.4}
+
+    /* --- Hero mock: browser window + phone --- */
+    .cs-stage{position:relative;margin:4rem auto 0;padding-bottom:3rem}
+    .cs-browser{
+      position:relative;border-radius:18px;overflow:hidden;
+      background:#0f0f12;border:1px solid var(--cs-line);
+      box-shadow:0 40px 120px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.03),0 30px 80px rgba(118,33,177,.18);
+    }
+    .cs-browser-bar{
+      display:flex;align-items:center;gap:8px;padding:12px 16px;
+      background:#17171b;border-bottom:1px solid var(--cs-line);
+    }
+    .cs-browser-bar i{width:11px;height:11px;border-radius:50%;background:#3a3a42;display:block}
+    .cs-browser-bar span{
+      margin-left:14px;flex:1;max-width:340px;
+      font-family:'Inter',sans-serif;font-size:.75rem;color:var(--fg-muted);
+      background:#0f0f12;border:1px solid var(--cs-line);border-radius:8px;padding:5px 12px;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    }
+    .cs-phone{
+      position:absolute;right:-1.5%;bottom:0;width:20%;min-width:150px;
+      border-radius:34px;padding:9px;background:#0b0a08;
+      box-shadow:0 0 0 1.5px #3a2f22,0 40px 80px rgba(0,0,0,.75),0 0 60px rgba(183,159,132,.18);
+    }
+    .cs-phone img{border-radius:26px;width:100%}
+    .cs-live{
+      position:absolute;left:24px;bottom:0;
+      display:inline-flex;align-items:center;gap:10px;
+      font-family:'Inter',sans-serif;font-size:.82rem;color:#fff;
+      background:rgba(20,20,23,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid var(--cs-line);border-radius:999px;padding:9px 16px;
+    }
+    .cs-live-dot{width:8px;height:8px;border-radius:50%;background:#34d399;box-shadow:0 0 0 0 rgba(52,211,153,.6);animation:csPing 2.4s ease-out infinite}
+    @keyframes csPing{0%{box-shadow:0 0 0 0 rgba(52,211,153,.55)}80%,100%{box-shadow:0 0 0 10px rgba(52,211,153,0)}}
+
+    /* zoomable screenshots (opened in the site's lightbox) */
+    .cs-zoom{
+      display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in;
+      position:relative;overflow:hidden;color:inherit;font:inherit;text-align:left;
+    }
+    .cs-zoom img{width:100%;height:auto;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+    .cs-zoom:hover img{transform:scale(1.02)}
+    .cs-zoom:focus-visible{outline:2px solid var(--cs-bronze);outline-offset:3px}
+    .cs-zoom-hint{
+      position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;
+      display:grid;place-items:center;font-size:.85rem;color:#fff;
+      background:rgba(118,33,177,.85);opacity:0;transform:scale(.85);
+      transition:opacity .25s,transform .25s;pointer-events:none;
+    }
+    .cs-zoom:hover .cs-zoom-hint,.cs-zoom:focus-visible .cs-zoom-hint{opacity:1;transform:none}
+
+    /* --- Numbers --- */
+    .cs-stats{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-top:4.5rem;
+    }
+    .cs-stat{
+      background:var(--cs-panel);border:1px solid var(--cs-line);border-radius:22px;padding:1.6rem 1.5rem;
+      transition:border-color .3s,transform .3s;
+    }
+    .cs-stat:hover{border-color:rgba(118,33,177,.6);transform:translateY(-2px)}
+    .cs-stat-num{
+      font-family:'Inter Tight','Inter',sans-serif;font-weight:700;
+      font-size:clamp(2.4rem,4.6vw,3.6rem);line-height:1;letter-spacing:-.03em;
+      background:linear-gradient(180deg,#fff 0%,#BBCCD7 100%);
+      -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+      font-variant-numeric:tabular-nums;
+    }
+    .cs-stat-label{margin-top:.7rem;font-family:'Inter',sans-serif;font-size:.9rem;line-height:1.5;color:var(--fg-muted)}
+
+    /* --- Sub headings --- */
+    .cs-block{margin-top:7rem}
+    .cs-kicker{
+      display:inline-flex;align-items:center;gap:10px;
+      font-size:.8rem;letter-spacing:3px;text-transform:uppercase;color:var(--cs-bronze);margin-bottom:1rem;
+    }
+    .cs-kicker::before{content:'';width:28px;height:1px;background:currentColor;opacity:.7}
+    .cs-h3{
+      font-weight:700;color:#fff;letter-spacing:-.02em;line-height:1.08;
+      font-size:clamp(2rem,4.2vw,3.4rem);max-width:820px;
+    }
+    .cs-h3 .cs-serif{color:var(--cs-bronze)}
+    .cs-sub{margin-top:1rem;max-width:680px;font-family:'Inter',sans-serif;font-size:1.02rem;line-height:1.7;color:var(--fg-muted)}
+
+    /* --- Brief --- */
+    .cs-brief{display:grid;grid-template-columns:1.15fr 1fr;gap:1.5rem;margin-top:3rem}
+    .cs-card{
+      background:var(--cs-panel);border:1px solid var(--cs-line);border-radius:26px;padding:2rem;
+      transition:border-color .3s,box-shadow .3s,transform .3s;
+    }
+    .cs-card:hover{border-color:rgba(118,33,177,.55);box-shadow:0 20px 50px rgba(118,33,177,.16)}
+    .cs-card h4{font-size:1.25rem;color:#fff;font-weight:600;margin-bottom:.8rem;display:flex;align-items:center;gap:.6rem}
+    .cs-card h4 i{color:var(--cs-bronze);font-size:1rem}
+    .cs-card p,.cs-card li{font-family:'Inter',sans-serif;font-size:.95rem;line-height:1.7;color:var(--fg-muted)}
+    .cs-card p + p{margin-top:.8rem}
+    .cs-card strong{color:#fff;font-weight:600}
+    .cs-users{list-style:none;display:grid;gap:1rem;margin-top:.4rem}
+    .cs-users li{display:grid;grid-template-columns:42px 1fr;gap:.9rem;align-items:start}
+    .cs-users .cs-ico{
+      width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+      background:rgba(183,159,132,.12);border:1px solid rgba(183,159,132,.3);color:var(--cs-bronze);
+    }
+    .cs-goals{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.4rem}
+    .cs-chip{
+      display:inline-flex;align-items:center;gap:.45rem;
+      font-family:'Inter',sans-serif;font-size:.8rem;color:var(--fg);
+      padding:6px 13px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid var(--cs-line);
+    }
+    .cs-chip i{color:var(--cs-bronze);font-size:.75rem}
+
+    /* --- Build steps (timeline) --- */
+    .cs-timeline{position:relative;margin-top:3.5rem}
+    .cs-steps{list-style:none;position:relative;display:grid;gap:5.5rem}
+    .cs-rail{position:absolute;left:27px;top:8px;bottom:8px;width:2px;background:var(--cs-line);border-radius:2px}
+    .cs-rail-fill{position:absolute;inset:0;background:linear-gradient(180deg,var(--purple),var(--cs-bronze));transform-origin:top;transform:scaleY(0);border-radius:2px}
+    .cs-step{position:relative;display:grid;grid-template-columns:56px minmax(0,1fr) minmax(0,1.25fr);gap:2.5rem;align-items:start}
+    .cs-step-num{
+      position:relative;z-index:1;width:56px;height:56px;border-radius:50%;
+      display:grid;place-items:center;background:#0C0C0C;border:1px solid var(--cs-line);
+      font-family:'Inter Tight','Inter',sans-serif;font-weight:700;color:#fff;font-size:1.05rem;
+      box-shadow:0 0 0 6px var(--bg);
+      transition:border-color .4s,background .4s;
+    }
+    .cs-step.is-active .cs-step-num{border-color:var(--cs-bronze);background:linear-gradient(180deg,#2a1f3a,#1a1612)}
+    .cs-step-date{font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--cs-bronze);margin:.3rem 0 .6rem}
+    .cs-step h4{font-size:clamp(1.35rem,2.2vw,1.7rem);color:#fff;font-weight:600;line-height:1.2;margin-bottom:.8rem}
+    .cs-step p{font-family:'Inter',sans-serif;font-size:.97rem;line-height:1.7;color:var(--fg-muted)}
+    .cs-step ul{list-style:none;margin-top:1rem;display:grid;gap:.55rem}
+    .cs-step li{position:relative;padding-left:1.4rem;font-family:'Inter',sans-serif;font-size:.92rem;line-height:1.6;color:var(--fg)}
+    .cs-step li::before{content:'';position:absolute;left:0;top:.62em;width:7px;height:7px;border-radius:2px;background:var(--cs-bronze);transform:rotate(45deg)}
+    .cs-step code,.cs-card code{font-family:ui-monospace,'SF Mono',Consolas,monospace;font-size:.85em;color:#e9d8c4;background:rgba(183,159,132,.12);padding:1px 6px;border-radius:6px}
+    .cs-shot{border-radius:16px;overflow:hidden;border:1px solid var(--cs-line);background:#0f0f12;box-shadow:0 30px 70px rgba(0,0,0,.5)}
+
+    /* step visual: scope cut */
+    .cs-cut{display:grid;gap:.7rem;background:var(--cs-panel);border:1px solid var(--cs-line);border-radius:18px;padding:1.4rem}
+    .cs-cut-row{display:grid;grid-template-columns:1fr 26px 1fr;gap:.8rem;align-items:center;font-family:'Inter',sans-serif;font-size:.88rem}
+    .cs-cut-row s{color:rgba(215,226,234,.45);text-decoration-color:rgba(244,114,182,.7)}
+    .cs-cut-row b{color:#fff;font-weight:500}
+    .cs-cut-row i{color:var(--cs-bronze);text-align:center}
+    .cs-cut-head{display:grid;grid-template-columns:1fr 26px 1fr;gap:.8rem;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);padding-bottom:.6rem;border-bottom:1px solid var(--cs-line)}
+
+    /* step visual: terminal with real test output */
+    .cs-term{
+      background:#0b0b0e;border:1px solid var(--cs-line);border-radius:16px;overflow:hidden;
+      font-family:ui-monospace,'SF Mono',Consolas,monospace;font-size:.8rem;line-height:1.75;
+      box-shadow:0 30px 70px rgba(0,0,0,.5);
+    }
+    .cs-term-bar{display:flex;align-items:center;gap:7px;padding:10px 14px;background:#131317;border-bottom:1px solid var(--cs-line);color:var(--fg-muted);font-size:.72rem}
+    .cs-term-bar i{width:10px;height:10px;border-radius:50%;background:#3a3a42;display:block}
+    .cs-term-bar span{margin-left:8px}
+    .cs-term pre{margin:0;padding:1rem 1.2rem 1.2rem;white-space:pre-wrap;word-break:break-word;color:#c9d3db}
+    .cs-term .t-cmd{color:#fff}
+    .cs-term .t-grp{color:#e9d8c4;font-weight:600}
+    .cs-term .t-ok{color:#34d399}
+    .cs-term .t-dim{color:rgba(201,211,219,.5)}
+    .cs-term .t-sum{color:#34d399;font-weight:700}
+
+    /* --- Feature bento --- */
+    .cs-bento{display:grid;grid-template-columns:repeat(6,1fr);gap:1.25rem;margin-top:3rem}
+    .cs-feat{grid-column:span 2;display:flex;flex-direction:column}
+    .cs-feat.wide{grid-column:span 3}
+    .cs-feat .cs-feat-ico{
+      width:46px;height:46px;border-radius:13px;display:grid;place-items:center;margin-bottom:1.1rem;
+      background:rgba(118,33,177,.16);border:1px solid rgba(118,33,177,.4);color:#d8b4fe;font-size:1.05rem;
+    }
+    .cs-feat .cs-feat-ico.bronze{background:rgba(183,159,132,.12);border-color:rgba(183,159,132,.35);color:var(--cs-bronze)}
+    .cs-feat .cs-feat-ico.green{background:rgba(37,211,102,.12);border-color:rgba(37,211,102,.35);color:#25D366}
+    .cs-feat h4{display:block;margin-bottom:.6rem}
+    .cs-feat .cs-viz{margin-top:auto;padding-top:1.5rem}
+
+    /* excel mock */
+    .cs-xls{border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.1);background:#fff;color:#1f2937;font-family:'Inter',sans-serif;font-size:.72rem}
+    .cs-xls-top{display:flex;align-items:center;gap:8px;background:#107C41;color:#fff;padding:7px 12px;font-size:.72rem;font-weight:500}
+    .cs-xls-top i{font-size:.85rem}
+    .cs-xls table{width:100%;border-collapse:collapse;table-layout:fixed}
+    .cs-xls th,.cs-xls td{border:1px solid #e5e7eb;padding:5px 8px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .cs-xls th{background:#ECE7E3;font-weight:700}
+    .cs-xls td.n{color:#6b7280;background:#f9fafb;width:28px;text-align:center}
+    .cs-xls th.n{width:28px}
+    .cs-xls-tabs{display:flex;gap:0;background:#f3f4f6;border-top:1px solid #e5e7eb;overflow:hidden}
+    .cs-xls-tabs span{padding:6px 12px;color:#4b5563;border-right:1px solid #e5e7eb;white-space:nowrap}
+    .cs-xls-tabs span.on{background:#fff;color:#107C41;font-weight:600;box-shadow:inset 0 2px 0 #107C41}
+
+    /* network bridge diagram */
+    .cs-net{display:grid;grid-template-columns:auto 1fr auto 1fr auto 1fr auto;align-items:center;gap:0;font-family:'Inter',sans-serif}
+    .cs-node{display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center;font-size:.72rem;color:var(--fg);line-height:1.25}
+    .cs-node b{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:var(--cs-panel-2);border:1px solid var(--cs-line);font-size:1.05rem;color:#fff}
+    .cs-node.cf b{color:#F38020;border-color:rgba(243,128,32,.45);background:rgba(243,128,32,.08)}
+    .cs-node.db b{color:#3ECF8E;border-color:rgba(62,207,142,.45);background:rgba(62,207,142,.08)}
+    .cs-link{position:relative;height:2px;margin:0 6px 26px;background:var(--cs-line);overflow:hidden;border-radius:2px}
+    .cs-link::after{content:'';position:absolute;top:0;left:-30%;width:30%;height:100%;background:linear-gradient(90deg,transparent,#d8b4fe,transparent);animation:csFlow 2.8s linear infinite}
+    .cs-link:nth-of-type(4)::after{animation-delay:.9s}
+    .cs-link:nth-of-type(6)::after{animation-delay:1.8s}
+    @keyframes csFlow{to{left:100%}}
+    .cs-block-note{
+      margin-top:1.1rem;display:flex;align-items:center;gap:.6rem;
+      font-family:'Inter',sans-serif;font-size:.8rem;color:rgba(244,114,182,.95);
+    }
+    .cs-block-note s{color:var(--fg-muted)}
+
+    /* whatsapp bubble */
+    .cs-wa{background:#0b141a;border-radius:14px;padding:14px;border:1px solid rgba(255,255,255,.06)}
+    .cs-wa-msg{
+      position:relative;margin-left:auto;max-width:92%;
+      background:#005c4b;color:#e9edef;border-radius:10px 2px 10px 10px;padding:9px 11px 18px;
+      font-family:'Inter',sans-serif;font-size:.78rem;line-height:1.5;
+    }
+    .cs-wa-msg small{position:absolute;right:9px;bottom:4px;font-size:.62rem;color:rgba(233,237,239,.6)}
+
+    /* lock list */
+    .cs-locks{list-style:none;display:grid;gap:.5rem;font-family:ui-monospace,'SF Mono',Consolas,monospace;font-size:.74rem}
+    .cs-locks li{display:flex;gap:.6rem;align-items:baseline;color:#c9d3db;padding:.55rem .75rem;border-radius:10px;background:#0b0b0e;border:1px solid var(--cs-line)}
+    .cs-locks li i{color:#34d399;font-size:.7rem}
+
+    /* cron clock */
+    .cs-cron{display:flex;align-items:center;gap:1rem}
+    .cs-clock{position:relative;width:74px;height:74px;flex:none;border-radius:50%;border:1px solid var(--cs-line);background:radial-gradient(circle,#1b1b20,#111114)}
+    .cs-clock::before{content:'';position:absolute;left:50%;top:50%;width:2px;height:28px;background:var(--cs-bronze);border-radius:2px;transform-origin:50% 0;transform:translate(-50%,0) rotate(180deg);animation:csSpin 4s linear infinite}
+    .cs-clock span{position:absolute;inset:-5px;border-radius:50%;border:2px solid transparent;border-top-color:rgba(118,33,177,.9);animation:csSpin 4s linear infinite}
+    @keyframes csSpin{to{transform:translate(-50%,0) rotate(540deg)}}
+    .cs-clock span{animation-name:csSpin2}
+    @keyframes csSpin2{to{transform:rotate(360deg)}}
+    .cs-cron code{display:inline-block;margin-bottom:.35rem}
+    .cs-cron p{font-size:.85rem !important}
+
+    /* details checklist */
+    .cs-ticks{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:.55rem 1.2rem}
+    .cs-ticks li{position:relative;padding-left:1.5rem;font-size:.88rem !important;line-height:1.5 !important}
+    .cs-ticks li::before{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;left:0;top:.1em;font-size:.72rem;color:var(--cs-bronze)}
+
+    /* --- Gallery --- */
+    .cs-gallery{display:grid;grid-template-columns:repeat(12,1fr);gap:1.25rem;margin-top:3rem}
+    .cs-g{grid-column:span 6;background:var(--cs-panel);border:1px solid var(--cs-line);border-radius:20px;overflow:hidden;transition:border-color .3s,transform .3s,box-shadow .3s}
+    .cs-g:hover{border-color:rgba(118,33,177,.6);transform:translateY(-2px);box-shadow:0 20px 50px rgba(118,33,177,.18)}
+    .cs-g.third{grid-column:span 4}
+    .cs-g.phone{grid-column:span 3;background:linear-gradient(180deg,#1a1612,#121214)}
+    .cs-g.phone .cs-zoom{padding:1.4rem 1.4rem 0}
+    .cs-g.phone .cs-zoom img{border-radius:22px 22px 0 0;border:1px solid rgba(255,255,255,.08);border-bottom:0;aspect-ratio:11/16;object-fit:cover;object-position:top}
+    .cs-g-head{display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:.9rem 1.1rem;border-bottom:1px solid var(--cs-line)}
+    .cs-g-head span{font-family:'Inter',sans-serif;font-size:.85rem;color:#fff;font-weight:500}
+    .cs-g-head em{font-style:normal;font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--cs-bronze);white-space:nowrap}
+    .cs-g.wide-g{grid-column:span 6}
+
+    /* --- Outro --- */
+    .cs-outro{display:grid;grid-template-columns:1.2fr 1fr;gap:1.5rem;margin-top:3rem}
+    .cs-stack{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.4rem}
+    .cs-stack .cs-chip{font-size:.85rem;padding:8px 14px}
+    .cs-stack .cs-chip i{font-size:.9rem}
+    .cs-learn{list-style:none;display:grid;gap:1.1rem;counter-reset:learn}
+    .cs-learn li{position:relative;padding-left:2.4rem;counter-increment:learn}
+    .cs-learn li::before{content:counter(learn,decimal-leading-zero);position:absolute;left:0;top:.05em;font-family:'Inter Tight','Inter',sans-serif;font-weight:700;font-size:.85rem;color:var(--cs-bronze)}
+    .cs-cta{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-top:4rem}
+    .cs-btn{
+      display:inline-flex;align-items:center;gap:.6rem;min-height:52px;padding:0 1.6rem;border-radius:999px;
+      font-family:'Inter',sans-serif;font-weight:600;font-size:.95rem;letter-spacing:.2px;
+      transition:transform .2s cubic-bezier(.2,.7,.2,1),box-shadow .25s,background .25s,border-color .25s;
+    }
+    .cs-btn:hover{opacity:1;transform:translateY(-2px)}
+    .cs-btn:active{transform:translateY(0) scale(.98)}
+    .cs-btn.primary{color:#fff;background:linear-gradient(135deg,var(--purple),var(--pink));box-shadow:0 12px 30px rgba(118,33,177,.35)}
+    .cs-btn.primary:hover{box-shadow:0 16px 40px rgba(182,0,168,.4)}
+    .cs-btn.ghost{color:#fff;border:1px solid var(--border);background:rgba(255,255,255,.03)}
+    .cs-btn.ghost:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+    .cs-btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
+
+    /* lightbox additions: real close button + previous/next for the case-study screens */
+    button.close-lightbox{background:none;border:0;line-height:1;font-family:inherit}
+    .lb-nav{
+      position:absolute;top:50%;transform:translateY(-50%);
+      width:48px;height:48px;border-radius:50%;display:none;place-items:center;
+      background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:1rem;cursor:pointer;
+      transition:background .2s,transform .2s;
+    }
+    .lb-nav:hover{background:rgba(118,33,177,.7)}
+    .lb-nav:active{transform:translateY(-50%) scale(.95)}
+    .lb-prev{left:24px}.lb-next{right:24px}
+    .lightbox-modal.has-group .lb-nav{display:grid}
+    .lightbox-modal img.lb-phone{max-height:88vh;max-width:min(420px,90vw)}
+
+    @media (max-width:1023px){
+      #clinic-desk{padding:5.5rem 1.5rem 5rem}
+      .cs-meta{grid-template-columns:repeat(2,1fr)}
+      .cs-stats{grid-template-columns:repeat(2,1fr)}
+      .cs-brief,.cs-outro{grid-template-columns:1fr}
+      .cs-step{grid-template-columns:56px minmax(0,1fr);gap:1.25rem 1.5rem}
+      .cs-step-visual{grid-column:2}
+      .cs-bento{grid-template-columns:repeat(2,1fr)}
+      .cs-feat,.cs-feat.wide{grid-column:span 1}
+      .cs-feat.full-md{grid-column:span 2}
+      .cs-g,.cs-g.third,.cs-g.wide-g{grid-column:span 6}
+      .cs-g.phone{grid-column:span 6}
+      .cs-block{margin-top:5.5rem}
+    }
+    @media (max-width:640px){
+      #clinic-desk{padding:4.5rem 16px 4rem}
+      .cs-meta{grid-template-columns:1fr 1fr}
+      .cs-meta div{padding:.9rem 1rem}
+      .cs-stage{margin-top:2.5rem;padding-bottom:0}
+      .cs-phone{display:none}
+      .cs-live{position:static;margin-top:1rem;font-size:.78rem}
+      .cs-stage{display:flex;flex-direction:column;align-items:center}
+      .cs-stage .cs-browser{width:100%}
+      .cs-stats{gap:.8rem;margin-top:3rem}
+      .cs-stat{padding:1.2rem 1.1rem;border-radius:18px}
+      .cs-stat-label{font-size:.82rem}
+      .cs-card{padding:1.4rem;border-radius:20px}
+      .cs-steps{gap:3.5rem}
+      .cs-step{grid-template-columns:40px minmax(0,1fr);gap:1rem}
+      .cs-step-num{width:40px;height:40px;font-size:.9rem}
+      .cs-rail{left:19px}
+      .cs-step-visual{grid-column:1 / -1}
+      .cs-bento{grid-template-columns:1fr}
+      .cs-feat,.cs-feat.wide,.cs-feat.full-md{grid-column:span 1}
+      .cs-ticks{grid-template-columns:1fr}
+      .cs-gallery{grid-template-columns:1fr 1fr;gap:.8rem}
+      .cs-g,.cs-g.third,.cs-g.wide-g{grid-column:span 2}
+      .cs-g.phone{grid-column:span 1}
+      .cs-g.phone .cs-zoom{padding:.8rem .8rem 0}
+      .cs-g-head{padding:.7rem .8rem}
+      .cs-g-head em{display:none}
+      .cs-net .cs-node{font-size:.62rem}
+      .cs-net .cs-node b{width:38px;height:38px;font-size:.9rem}
+      .cs-cta{flex-direction:column}
+      .cs-btn{justify-content:center;width:100%}
+      .lb-nav{top:auto;bottom:24px;transform:none}
+      .lb-nav:active{transform:scale(.95)}
+    }
+    @media (prefers-reduced-motion: reduce){
+      .cs-live-dot,.cs-link::after,.cs-clock::before,.cs-clock span{animation:none}
+      .cs-rail-fill{transform:scaleY(1)}
+      .cs-zoom img,.cs-zoom:hover img{transition:none;transform:none}
+    }
   </style>
 </head>
 <body>
@@ -2169,6 +2546,7 @@
     <nav class="mobile-nav-links">
       <a href="#about" class="mobile-nav-link">About</a>
       <a href="#portfolio-showcase" class="mobile-nav-link">Showcase</a>
+      <a href="#clinic-desk" class="mobile-nav-link">Case Study</a>
       <a href="#skills" class="mobile-nav-link">Skills</a>
       <a href="#projects" class="mobile-nav-link">Highlights</a>
       <a href="#certificates" class="mobile-nav-link">Certificates</a>
@@ -2189,6 +2567,7 @@
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#portfolio-showcase">Showcase</a></li>
+      <li><a href="#clinic-desk">Case Study</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#projects">Highlights</a></li>
       <li><a href="#certificates">Certificates</a></li>
@@ -2357,6 +2736,430 @@
   </div>
 </section>
 
+<!-- ======= CASE STUDY: CLINIC DESK =======
+     Screenshots in case-studies/clinic-desk/ were captured from the app's demo mode:
+     every patient shown is made up. No real patient data appears on this page. -->
+<section id="clinic-desk" aria-labelledby="cs-title">
+  <div class="cs-wrap">
+
+    <header class="cs-intro">
+      <p class="pf-label fade-el">Featured case study</p>
+      <h2 id="cs-title" class="section-heading hg fade-el">Clinic Desk</h2>
+      <p class="cs-lead fade-el d1">
+        The reception desk and doctor's dashboard for <strong>Dr. Anam's Dental Clinic</strong>, my father's new practice.
+        I planned, designed, built, secured and launched it on my own, and it costs <strong>&#8377;0 a month</strong> to run.
+      </p>
+      <dl class="cs-meta fade-el d2">
+        <div><dt>My role</dt><dd>Solo: product, design, code, launch</dd></div>
+        <div><dt>Timeline</dt><dd>19 to 21 Nov 2026</dd></div>
+        <div><dt>Built with</dt><dd>React, TypeScript, Supabase, Cloudflare</dd></div>
+        <div><dt>Users</dt><dd>1 receptionist, 2 doctors</dd></div>
+      </dl>
+    </header>
+
+    <div class="cs-stage fade-el">
+      <div class="cs-browser">
+        <div class="cs-browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>Clinic Desk &middot; Doctor dashboard</span></div>
+        <button type="button" class="cs-zoom" data-cs-group aria-label="Enlarge: doctor dashboard">
+          <img src="case-studies/clinic-desk/02-doctor-dashboard.webp" width="2160" height="1350" loading="lazy" decoding="async"
+               alt="Doctor dashboard: today's due, treated, follow-up and missed counts above a list of today's patients with medical alerts"/>
+          <span class="cs-zoom-hint" aria-hidden="true"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+        </button>
+      </div>
+      <div class="cs-phone" aria-hidden="true">
+        <img src="case-studies/clinic-desk/10-mobile-dashboard.webp" width="780" height="1688" loading="lazy" decoding="async" alt=""/>
+      </div>
+      <div class="cs-live"><span class="cs-live-dot" aria-hidden="true"></span>Live on Cloudflare &middot; staff login only</div>
+    </div>
+
+    <div class="cs-stats">
+      <div class="cs-stat fade-el"><div class="cs-stat-num" data-count="74">74</div><p class="cs-stat-label">automated security tests, all passing</p></div>
+      <div class="cs-stat fade-el d1"><div class="cs-stat-num" data-count="3">3</div><p class="cs-stat-label">days from empty folder to live app</p></div>
+      <div class="cs-stat fade-el d2"><div class="cs-stat-num">&#8377;<span data-count="0">0</span></div><p class="cs-stat-label">monthly running cost, on free tiers</p></div>
+      <div class="cs-stat fade-el d3"><div class="cs-stat-num" data-count="2">2</div><p class="cs-stat-label">portals with separate logins: Doctor and Reception</p></div>
+    </div>
+
+    <!-- The brief -->
+    <div class="cs-block">
+      <p class="cs-kicker fade-el">The brief</p>
+      <h3 class="cs-h3 fade-el">A new clinic, a paper register, and <span class="cs-serif">no budget for software.</span></h3>
+      <div class="cs-brief">
+        <div class="cs-card fade-el">
+          <h4><i class="fa-solid fa-triangle-exclamation"></i>The problem</h4>
+          <p>My parents were opening a dental clinic. With a paper register, follow-ups get forgotten, missed appointments go unnoticed, and the doctor's notes live in a notebook nobody else should read.</p>
+          <p>Clinic software charges a monthly fee and is built for hospitals. This clinic needed <strong>one simple screen for the front desk</strong>, one for the doctors, and nothing it would pay for every month.</p>
+          <div class="cs-goals">
+            <span class="cs-chip"><i class="fa-solid fa-hand-pointer"></i>Usable on day one</span>
+            <span class="cs-chip"><i class="fa-solid fa-lock"></i>Private medical notes</span>
+            <span class="cs-chip"><i class="fa-solid fa-indian-rupee-sign"></i>Free to run</span>
+            <span class="cs-chip"><i class="fa-solid fa-mobile-screen"></i>Works on a phone</span>
+          </div>
+        </div>
+        <div class="cs-card fade-el d1">
+          <h4><i class="fa-solid fa-user-group"></i>Who uses it</h4>
+          <ul class="cs-users">
+            <li><span class="cs-ico"><i class="fa-solid fa-calendar-check"></i></span>
+              <p><strong>The receptionist</strong> registers patients, books visits, marks arrivals and works through the follow-up call list.</p></li>
+            <li><span class="cs-ico"><i class="fa-solid fa-user-doctor"></i></span>
+              <p><strong>The doctors</strong> (my parents, sharing one login) see who is due, mark treatments, write private notes and set follow-ups.</p></li>
+            <li><span class="cs-ico"><i class="fa-solid fa-desktop"></i></span>
+              <p><strong>The reception PC</strong> is a modest Dell i3 with a hard drive, so the app had to stay small and fast.</p></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- How I built it -->
+    <div class="cs-block">
+      <p class="cs-kicker fade-el">How I built it</p>
+      <h3 class="cs-h3 fade-el">Six steps, <span class="cs-serif">from scope to go-live.</span></h3>
+      <p class="cs-sub fade-el">Each step ended with something that worked and was committed to Git, so nothing was built on guesswork.</p>
+
+      <div class="cs-timeline" id="cs-steps">
+      <span class="cs-rail" aria-hidden="true"><span class="cs-rail-fill" id="cs-rail-fill"></span></span>
+      <ol class="cs-steps">
+
+        <li class="cs-step">
+          <span class="cs-step-num" aria-hidden="true">01</span>
+          <div class="cs-step-text fade-el">
+            <p class="cs-step-date">Step 1 &middot; 19 Nov</p>
+            <h4>Cut the scope to what a small clinic uses</h4>
+            <p>An earlier attempt of mine was overbuilt. I kept its good ideas and rebuilt around what a one-receptionist clinic does every day.</p>
+            <ul>
+              <li>Patients, visits, follow-ups and doctor's notes: nothing else</li>
+              <li>Clinic rules written down first: Mon to Sat, last booking 6:30 PM</li>
+            </ul>
+          </div>
+          <div class="cs-step-visual fade-el d1">
+            <div class="cs-cut">
+              <div class="cs-cut-head"><span>First attempt</span><span></span><span>Clinic Desk</span></div>
+              <div class="cs-cut-row"><s>12 database tables</s><i class="fa-solid fa-arrow-right"></i><b>4 tables</b></div>
+              <div class="cs-cut-row"><s>Paid WhatsApp API</s><i class="fa-solid fa-arrow-right"></i><b>Free wa.me links</b></div>
+              <div class="cs-cut-row"><s>Interactive tooth chart</s><i class="fa-solid fa-arrow-right"></i><b>Quick-pick treatments</b></div>
+              <div class="cs-cut-row"><s>Login that took any password</s><i class="fa-solid fa-arrow-right"></i><b>Real role-checked logins</b></div>
+            </div>
+          </div>
+        </li>
+
+        <li class="cs-step">
+          <span class="cs-step-num" aria-hidden="true">02</span>
+          <div class="cs-step-text fade-el">
+            <p class="cs-step-date">Step 2 &middot; 19 Nov</p>
+            <h4>Design every screen before the database</h4>
+            <p>I built all the screens in React and Tailwind on top of sample data, so the flow could be clicked through and changed cheaply before anything was stored.</p>
+            <ul>
+              <li>Branding matched to the clinic's website: ivory, espresso and bronze</li>
+              <li>One landing page with two doors: Doctor and Reception desk</li>
+            </ul>
+          </div>
+          <div class="cs-step-visual fade-el d1">
+            <div class="cs-shot">
+              <button type="button" class="cs-zoom" data-cs-group aria-label="Enlarge: landing page with Doctor and Reception desk doors">
+                <img src="case-studies/clinic-desk/01-landing.webp" width="2160" height="1350" loading="lazy" decoding="async"
+                     alt="Clinic Desk landing page with two doors: Doctor and Reception desk"/>
+                <span class="cs-zoom-hint" aria-hidden="true"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+              </button>
+            </div>
+          </div>
+        </li>
+
+        <li class="cs-step">
+          <span class="cs-step-num" aria-hidden="true">03</span>
+          <div class="cs-step-text fade-el">
+            <p class="cs-step-date">Step 3 &middot; 20 Nov</p>
+            <h4>Lock down the database, then prove it</h4>
+            <p>Patient data sits in Postgres on Supabase. The security rules live in the database itself, not just in the screens, so a hidden button can't be worked around.</p>
+            <ul>
+              <li>Row Level Security on every table</li>
+              <li>Clinic hours enforced by the database: no Sunday or 7 PM bookings</li>
+              <li>74 automated tests run against a real Postgres before every change</li>
+            </ul>
+          </div>
+          <div class="cs-step-visual fade-el d1">
+            <div class="cs-term" role="img" aria-label="Terminal output of the security test run: 74 passed, 0 failed">
+              <div class="cs-term-bar" aria-hidden="true"><i></i><i></i><i></i><span>npm run test:db</span></div>
+<pre aria-hidden="true"><span class="t-grp">Logged-out visitor</span>
+  <span class="t-ok">&#10003;</span> cannot read patients <span class="t-dim">(refused)</span>
+  <span class="t-ok">&#10003;</span> cannot read doctor notes <span class="t-dim">(refused)</span>
+<span class="t-grp">Reception</span>
+  <span class="t-ok">&#10003;</span> cannot book on a Sunday <span class="t-dim">(refused)</span>
+  <span class="t-ok">&#10003;</span> cannot book 7:00 PM <span class="t-dim">(refused)</span>
+  <span class="t-ok">&#10003;</span> cannot add themselves as doctor <span class="t-dim">(refused)</span>
+<span class="t-grp">Reception, after treatment</span>
+  <span class="t-ok">&#10003;</span> sees ZERO doctor notes
+<span class="t-grp">Undo treated</span>
+  <span class="t-ok">&#10003;</span> the doctor's private note is kept
+  <span class="t-ok">&#10003;</span> &hellip;and changed nothing (all-or-nothing)
+
+<span class="t-sum">74 passed, 0 failed</span></pre>
+            </div>
+          </div>
+        </li>
+
+        <li class="cs-step">
+          <span class="cs-step-num" aria-hidden="true">04</span>
+          <div class="cs-step-text fade-el">
+            <p class="cs-step-date">Step 4 &middot; 20 Nov</p>
+            <h4>Two doors, real logins</h4>
+            <p>Each person signs in to their own portal. The receptionist can't get through the doctor's door, and even if someone forced the page open, the database would still refuse every doctor-only action.</p>
+            <ul>
+              <li>Doctor sessions log out after 15 idle minutes</li>
+              <li>Sessions end when the browser closes, on a shared PC</li>
+              <li>Short usernames like <code>reception</code> instead of long emails</li>
+            </ul>
+          </div>
+          <div class="cs-step-visual fade-el d1">
+            <div class="cs-shot">
+              <button type="button" class="cs-zoom" data-cs-group aria-label="Enlarge: reception visits screen">
+                <img src="case-studies/clinic-desk/05-reception-visits.webp" width="2160" height="1350" loading="lazy" decoding="async"
+                     alt="Reception portal: today's visits with times, patients, reasons and arrival status"/>
+                <span class="cs-zoom-hint" aria-hidden="true"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+              </button>
+            </div>
+          </div>
+        </li>
+
+        <li class="cs-step">
+          <span class="cs-step-num" aria-hidden="true">05</span>
+          <div class="cs-step-text fade-el">
+            <p class="cs-step-date">Step 5 &middot; 20 Nov</p>
+            <h4>Connect real data, updating live</h4>
+            <p>When reception marks a patient as arrived, the doctor's dashboard updates on its own. No refreshing, no shouting across the clinic.</p>
+            <ul>
+              <li>Live updates on patients, visits and notes</li>
+              <li>Marking treated books the follow-up in the same step</li>
+              <li>Tested end to end on the live database, then wiped clean</li>
+            </ul>
+          </div>
+          <div class="cs-step-visual fade-el d1">
+            <div class="cs-shot">
+              <button type="button" class="cs-zoom" data-cs-group aria-label="Enlarge: mark as treated window">
+                <img src="case-studies/clinic-desk/03-treat-modal.webp" width="2160" height="1350" loading="lazy" decoding="async"
+                     alt="Mark as treated window with quick-pick treatments, private clinical notes and follow-up choices from 1 week to 6 months"/>
+                <span class="cs-zoom-hint" aria-hidden="true"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+              </button>
+            </div>
+          </div>
+        </li>
+
+        <li class="cs-step">
+          <span class="cs-step-num" aria-hidden="true">06</span>
+          <div class="cs-step-text fade-el">
+            <p class="cs-step-date">Step 6 &middot; 21 Nov</p>
+            <h4>Go live for &#8377;0, then polish</h4>
+            <p>Deployed to Cloudflare with strict security headers, then refined after testing with my family: editing patients and bookings, an undo for the doctor, and a fix for tapping patients on phones.</p>
+            <ul>
+              <li>Content Security Policy and HTTPS-only headers</li>
+              <li>Responsive layout checked at phone size</li>
+              <li>A go-live guide so the clinic can run it without me</li>
+            </ul>
+          </div>
+          <div class="cs-step-visual fade-el d1">
+            <div class="cs-shot">
+              <button type="button" class="cs-zoom" data-cs-group aria-label="Enlarge: patient history panel">
+                <img src="case-studies/clinic-desk/04-patient-history.webp" width="2160" height="1350" loading="lazy" decoding="async"
+                     alt="Patient panel with date of birth and age, medical alerts, visit history, a private doctor's note and an Undo treated button"/>
+                <span class="cs-zoom-hint" aria-hidden="true"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+              </button>
+            </div>
+          </div>
+        </li>
+      </ol>
+      </div>
+    </div>
+
+    <!-- What makes it different -->
+    <div class="cs-block">
+      <p class="cs-kicker fade-el">What makes it different</p>
+      <h3 class="cs-h3 fade-el">The problems <span class="cs-serif">nobody asked me to solve.</span></h3>
+      <p class="cs-sub fade-el">Most of the work wasn't the screens. It was the details that decide whether a small clinic can trust the app with its patients.</p>
+
+      <div class="cs-bento">
+        <article class="cs-card cs-feat wide fade-el">
+          <span class="cs-feat-ico green"><i class="fa-solid fa-file-excel"></i></span>
+          <h4>One-click Excel backup</h4>
+          <p>The free database plan has no automatic backups, so I built one. A single button saves every patient, visit and note into a tidy three-sheet workbook. The Excel library loads only when the button is pressed, keeping the app fast, and the dashboard nudges the doctor if a week passes without a backup.</p>
+          <div class="cs-viz" aria-hidden="true">
+            <div class="cs-xls">
+              <div class="cs-xls-top"><i class="fa-solid fa-file-excel"></i>anams-clinic-backup.xlsx</div>
+              <table>
+                <tr><th class="n"></th><th>Name</th><th>Mobile</th><th>Age</th><th>Medical alerts</th></tr>
+                <tr><td class="n">2</td><td>Arjun Reddy</td><td>90000 00003</td><td>31 yrs</td><td></td></tr>
+                <tr><td class="n">3</td><td>Lakshmi Devi</td><td>90000 00002</td><td>64 yrs</td><td>Blood thinners</td></tr>
+                <tr><td class="n">4</td><td>Priya Sharma</td><td>90000 00006</td><td>36 yrs</td><td>Pregnant</td></tr>
+              </table>
+              <div class="cs-xls-tabs"><span class="on">Patients</span><span>Visits</span><span>Doctor's notes (private)</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="cs-card cs-feat wide fade-el d1">
+          <span class="cs-feat-ico"><i class="fa-solid fa-route"></i></span>
+          <h4>Beat an internet provider's block</h4>
+          <p>Halfway through, the app couldn't reach its database: some Indian internet providers block Supabase's addresses outright. I traced it to the provider, then built a small Cloudflare Worker that relays the traffic, so the clinic works on any connection.</p>
+          <div class="cs-viz" aria-hidden="true">
+            <div class="cs-net">
+              <div class="cs-node"><b><i class="fa-solid fa-display"></i></b>Clinic PC</div>
+              <span class="cs-link"></span>
+              <div class="cs-node cf"><b><i class="fa-brands fa-cloudflare"></i></b>App</div>
+              <span class="cs-link"></span>
+              <div class="cs-node cf"><b><i class="fa-solid fa-shuffle"></i></b>My bridge</div>
+              <span class="cs-link"></span>
+              <div class="cs-node db"><b><i class="fa-solid fa-database"></i></b>Supabase</div>
+            </div>
+            <p class="cs-block-note"><i class="fa-solid fa-ban"></i><s>Clinic PC &rarr; Supabase directly</s>&nbsp;blocked by the provider</p>
+          </div>
+        </article>
+
+        <article class="cs-card cs-feat fade-el">
+          <span class="cs-feat-ico green"><i class="fa-brands fa-whatsapp"></i></span>
+          <h4>Free WhatsApp reminders</h4>
+          <p>Instead of a paid messaging service, one click opens WhatsApp with the reminder already written. Messages carry only name, date and time, never anything medical.</p>
+          <div class="cs-viz" aria-hidden="true">
+            <div class="cs-wa"><div class="cs-wa-msg">Hello Sneha, this is a reminder from Dr. Anam's Dental Clinic about your appointment on Tue, 24 Nov at 10:30 AM.<small>10:02</small></div></div>
+          </div>
+        </article>
+
+        <article class="cs-card cs-feat fade-el d1">
+          <span class="cs-feat-ico bronze"><i class="fa-solid fa-user-lock"></i></span>
+          <h4>Notes only a doctor can read</h4>
+          <p>Clinical notes sit in their own table that only the doctor role can open. Reception sees treatments, never the notes, and the tests prove it.</p>
+          <div class="cs-viz" aria-hidden="true">
+            <ul class="cs-locks">
+              <li><i class="fa-solid fa-check"></i>reception sees ZERO doctor notes</li>
+              <li><i class="fa-solid fa-check"></i>cannot write a doctor note</li>
+              <li><i class="fa-solid fa-check"></i>cannot change staff roles</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="cs-card cs-feat full-md fade-el d2">
+          <span class="cs-feat-ico"><i class="fa-solid fa-heart-pulse"></i></span>
+          <h4>An app that never falls asleep</h4>
+          <p>Free Supabase projects pause after a week of quiet. A scheduled Cloudflare job checks in every six hours, so the clinic never opens to a sleeping app.</p>
+          <div class="cs-viz" aria-hidden="true">
+            <div class="cs-cron">
+              <div class="cs-clock"><span></span></div>
+              <div><code>0 */6 * * *</code><p>Keep-alive check, four times a day</p></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="cs-card cs-feat wide fade-el">
+          <span class="cs-feat-ico bronze"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+          <h4>Small touches for the front desk</h4>
+          <ul class="cs-ticks">
+            <li>Age appears the moment a date of birth is typed</li>
+            <li>Sundays and after-hours times can't be booked</li>
+            <li>Family members can share one phone number</li>
+            <li>Medical alerts are one tap and show in red everywhere</li>
+            <li>Indian numbers accepted with +91, 0 or spaces</li>
+            <li>The doctor's follow-ups land in reception's call list</li>
+          </ul>
+        </article>
+
+        <article class="cs-card cs-feat wide fade-el d1">
+          <span class="cs-feat-ico"><i class="fa-solid fa-flask"></i></span>
+          <h4>A safe demo mode</h4>
+          <p>A sample-data mode lets me test, train staff and take screenshots without touching real records. It only works on my laptop and can never switch on in the live app. Every patient on this page comes from it.</p>
+          <div class="cs-viz" aria-hidden="true">
+            <div class="cs-goals" style="margin-top:0">
+              <span class="cs-chip"><i class="fa-solid fa-user-secret"></i>Made-up patients</span>
+              <span class="cs-chip"><i class="fa-solid fa-laptop-code"></i>Laptop only</span>
+              <span class="cs-chip"><i class="fa-solid fa-shield-halved"></i>Off in production</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- Screens -->
+    <div class="cs-block">
+      <p class="cs-kicker fade-el">Inside the app</p>
+      <h3 class="cs-h3 fade-el">Every screen, <span class="cs-serif">click to look closer.</span></h3>
+
+      <div class="cs-gallery">
+        <div class="cs-g wide-g fade-el">
+          <div class="cs-g-head"><span>New patient</span><em>Reception</em></div>
+          <button type="button" class="cs-zoom" data-cs-group aria-label="Enlarge: new patient form">
+            <img src="case-studies/clinic-desk/06-new-patient.webp" width="2160" height="1350" loading="lazy" decoding="async"
+                 alt="New patient form where the age appears next to the date of birth, with one-tap medical alert chips"/>
+            <span class="cs-zoom-hint" aria-hidden="true"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+          </button>
+        </div>
+        <div class="cs-g wide-g fade-el d1">
+          <div class="cs-g-head"><span>Book a visit</span><em>Reception</em></div>
+          <button type="button" class="cs-zoom" data-cs-group aria-label="Enlarge: book a visit form">
+            <img src="case-studies/clinic-desk/07-book-visit.webp" width="2160" height="1350" loading="lazy" decoding="async"
+                 alt="Book a visit form with patient search, date, a time list from 10 AM to 6:30 PM and quick-pick reasons"/>
+            <span class="cs-zoom-hint" aria-hidden="true"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+          </button>
+        </div>
+        <div class="cs-g wide-g fade-el">
+          <div class="cs-g-head"><span>Follow-up calls</span><em>Reception</em></div>
+          <button type="button" class="cs-zoom" data-cs-group aria-label="Enlarge: follow-up calls list">
+            <img src="case-studies/clinic-desk/08-follow-up-calls.webp" width="2160" height="1350" loading="lazy" decoding="async"
+                 alt="Follow-up call list: follow-ups to confirm, missed appointments to rebook and tomorrow's reminders, each with Call and WhatsApp buttons"/>
+            <span class="cs-zoom-hint" aria-hidden="true"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+          </button>
+        </div>
+        <div class="cs-g phone fade-el d1">
+          <div class="cs-g-head"><span>Dashboard</span><em>Phone</em></div>
+          <button type="button" class="cs-zoom" data-cs-group data-cs-phone aria-label="Enlarge: doctor dashboard on a phone">
+            <img src="case-studies/clinic-desk/10-mobile-dashboard.webp" width="780" height="1688" loading="lazy" decoding="async"
+                 alt="Doctor dashboard on a phone"/>
+            <span class="cs-zoom-hint" aria-hidden="true"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+          </button>
+        </div>
+        <div class="cs-g phone fade-el d2">
+          <div class="cs-g-head"><span>Patient file</span><em>Phone</em></div>
+          <button type="button" class="cs-zoom" data-cs-group data-cs-phone aria-label="Enlarge: patient file on a phone">
+            <img src="case-studies/clinic-desk/11-mobile-patient.webp" width="780" height="1688" loading="lazy" decoding="async"
+                 alt="Patient file on a phone with visit history and a private doctor's note"/>
+            <span class="cs-zoom-hint" aria-hidden="true"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Outro -->
+    <div class="cs-block">
+      <p class="cs-kicker fade-el">Takeaways</p>
+      <h3 class="cs-h3 fade-el">What this project <span class="cs-serif">taught me.</span></h3>
+      <div class="cs-outro">
+        <div class="cs-card fade-el">
+          <ol class="cs-learn">
+            <li><p><strong>Cutting scope is a feature.</strong> Dropping two thirds of my first plan is why the clinic got a working app in three days.</p></li>
+            <li><p><strong>Security belongs in the database.</strong> Rules that live under the screens hold, even if someone gets clever with the browser.</p></li>
+            <li><p><strong>Real users find real bugs.</strong> A tap that failed only on phones turned up in family testing, never on my laptop.</p></li>
+          </ol>
+        </div>
+        <div class="cs-card fade-el d1">
+          <h4><i class="fa-solid fa-layer-group"></i>Tools I used</h4>
+          <div class="cs-stack">
+            <span class="cs-chip"><i class="fa-brands fa-react"></i>React 19</span>
+            <span class="cs-chip"><i class="fa-solid fa-code"></i>TypeScript</span>
+            <span class="cs-chip"><i class="fa-solid fa-wind"></i>Tailwind CSS</span>
+            <span class="cs-chip"><i class="fa-solid fa-bolt"></i>Vite</span>
+            <span class="cs-chip"><i class="fa-solid fa-database"></i>Supabase &middot; Postgres</span>
+            <span class="cs-chip"><i class="fa-brands fa-cloudflare"></i>Cloudflare Workers</span>
+            <span class="cs-chip"><i class="fa-solid fa-file-excel"></i>ExcelJS</span>
+            <span class="cs-chip"><i class="fa-brands fa-whatsapp"></i>WhatsApp links</span>
+            <span class="cs-chip"><i class="fa-brands fa-git-alt"></i>Git &amp; GitHub</span>
+            <span class="cs-chip"><i class="fa-solid fa-robot"></i>Claude Code</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-cta fade-el">
+        <a href="#contact" class="cs-btn primary"><i class="fa-regular fa-comments"></i>Ask me about this project</a>
+        <a href="#projects" class="cs-btn ghost">See my other work<i class="fa-solid fa-arrow-down"></i></a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <!-- ======= SKILLS (CORE COMPETENCIES) ======= -->
 <section id="skills">
   <h2 class="section-heading hg fade-el">Core Competencies</h2>
@@ -2427,13 +3230,13 @@
       
       <div class="proj-gallery">
         <div class="proj-img-item" title="Click to zoom">
-          <img src="portfolio cornell 2.jpg" alt="Cornell Immersion - Event" loading="lazy" decoding="async"/>
+          <img src="portfolio cornell 2.webp" alt="Cornell Immersion - Event" loading="lazy" decoding="async"/>
         </div>
         <div class="proj-img-item" title="Click to zoom">
-          <img src="portfolio cornell.jpg" alt="Cornell Immersion - Presentation" loading="lazy" decoding="async"/>
+          <img src="portfolio cornell.webp" alt="Cornell Immersion - Presentation" loading="lazy" decoding="async"/>
         </div>
         <div class="proj-img-item" title="Click to zoom">
-          <img src="portfolio cornell 3.jpg" alt="Cornell Immersion - Group" loading="lazy" decoding="async"/>
+          <img src="portfolio cornell 3.webp" alt="Cornell Immersion - Group" loading="lazy" decoding="async"/>
         </div>
       </div>
 
@@ -2457,13 +3260,13 @@
       
       <div class="proj-gallery">
         <div class="proj-img-item" title="Click to zoom">
-          <img src="portfolio NUS 2.jpg" alt="NUS Analytics - Team" loading="lazy" decoding="async"/>
+          <img src="portfolio NUS 2.webp" alt="NUS Analytics - Team" loading="lazy" decoding="async"/>
         </div>
         <div class="proj-img-item" title="Click to zoom">
-          <img src="portfolio NUS.jpg" alt="NUS Analytics - Presentation" loading="lazy" decoding="async"/>
+          <img src="portfolio NUS.webp" alt="NUS Analytics - Presentation" loading="lazy" decoding="async"/>
         </div>
         <div class="proj-img-item" title="Click to zoom">
-          <img src="portfolio NUS 3.jpg" alt="NUS Analytics - Group" loading="lazy" decoding="async"/>
+          <img src="portfolio NUS 3.webp" alt="NUS Analytics - Group" loading="lazy" decoding="async"/>
         </div>
       </div>
 
@@ -2571,7 +3374,7 @@
           </div>
         </div>
         <div class="cert-img-frame" title="Click to zoom">
-          <img src="Certificate of completion _page-0001.jpg" alt="AI-Powered Business Analytics (Intermediate) - NUS" loading="lazy" decoding="async"/>
+          <img src="Certificate of completion _page-0001.webp" alt="AI-Powered Business Analytics (Intermediate) - NUS" loading="lazy" decoding="async"/>
         </div>
       </div>
     </div>
@@ -2587,7 +3390,7 @@
           </div>
         </div>
         <div class="cert-img-frame" title="Click to zoom">
-          <img src="Commendation Letter_AI-Powered BA(Int)_Anam Adarsh Reddy_page-0001.jpg" alt="Commendation Letter (Top 20%) - NUS" loading="lazy" decoding="async"/>
+          <img src="Commendation Letter_AI-Powered BA(Int)_Anam Adarsh Reddy_page-0001.webp" alt="Commendation Letter (Top 20%) - NUS" loading="lazy" decoding="async"/>
         </div>
       </div>
     </div>
@@ -2603,7 +3406,7 @@
           </div>
         </div>
         <div class="cert-img-frame" title="Click to zoom">
-          <img src="redbull sales simulation_page-0001.jpg" alt="Off-Premise Sales Job Simulation - Red Bull" loading="lazy" decoding="async"/>
+          <img src="redbull sales simulation_page-0001.webp" alt="Off-Premise Sales Job Simulation - Red Bull" loading="lazy" decoding="async"/>
         </div>
       </div>
     </div>
@@ -2619,7 +3422,7 @@
           </div>
         </div>
         <div class="cert-img-frame" title="Click to zoom">
-          <img src="Anam Adarsh Reddy_Certificate_of_Completion_page-0001.jpg" alt="Climate Change: From Learning to Action - UNITAR / UN CC:Learn" loading="lazy" decoding="async"/>
+          <img src="Anam Adarsh Reddy_Certificate_of_Completion_page-0001.webp" alt="Climate Change: From Learning to Action - UNITAR / UN CC:Learn" loading="lazy" decoding="async"/>
         </div>
       </div>
     </div>
@@ -2635,7 +3438,7 @@
           </div>
         </div>
         <div class="cert-img-frame" title="Click to zoom">
-          <img src="Inbound sales Certificate Adarsh.jpg" alt="Inbound Sales Certified - HubSpot Academy" loading="lazy" decoding="async"/>
+          <img src="Inbound sales Certificate Adarsh.webp" alt="Inbound Sales Certified - HubSpot Academy" loading="lazy" decoding="async"/>
         </div>
       </div>
     </div>
@@ -2693,6 +3496,7 @@
   <nav class="footer-links">
     <a href="#about">About</a>
     <a href="#portfolio-showcase">Showcase</a>
+    <a href="#clinic-desk">Case Study</a>
     <a href="#skills">Skills</a>
     <a href="#projects">Highlights</a>
     <a href="#certificates">Certificates</a>
@@ -2701,10 +3505,13 @@
 </footer>
 
 <!-- ======= LIGHTBOX MODAL ======= -->
-<div id="lightbox" class="lightbox-modal">
-  <span class="close-lightbox" id="close-lightbox">&times;</span>
+<div id="lightbox" class="lightbox-modal" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button type="button" class="close-lightbox" id="close-lightbox" aria-label="Close image">&times;</button>
+  <button type="button" class="lb-nav lb-prev" id="lb-prev" aria-label="Previous screen"><i class="fa-solid fa-chevron-left"></i></button>
   <img id="lightbox-img" src="" alt=""/>
+  <button type="button" class="lb-nav lb-next" id="lb-next" aria-label="Next screen"><i class="fa-solid fa-chevron-right"></i></button>
   <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
 <!-- ======= VIMEO LIGHTBOX ======= -->
 <div class="vimeo-lb" id="vimeo-lb">
   <button class="vimeo-lb-x" id="vimeo-lb-x" aria-label="Close video">&times;</button>
@@ -2778,9 +3585,18 @@ const PORTFOLIO_DATA = [
   /* ── Web Design ────────────────────────────────────────────────── */
   {
     category: 'web',
+    title: 'Clinic Desk',
+    desc: 'Reception and doctor dashboard for a dental clinic. Read the case study.',
+    poster: 'case-studies/clinic-desk/poster.webp',
+    link: '#clinic-desk',
+    videoSrc: '',
+    vimeoUrl: ''
+  },
+  {
+    category: 'web',
     title: "Dr. Anam's Dental Clinic",
     desc: 'A modern, clean dental clinic website.',
-    poster: 'Anam dental thumbnail.png',
+    poster: 'Anam dental thumbnail.webp',
     link: 'https://dr-anams-dental-clinic.anamadarshreddy.workers.dev/',
     videoSrc: '',
     vimeoUrl: ''
@@ -2789,7 +3605,7 @@ const PORTFOLIO_DATA = [
     category: 'web',
     title: 'Matcha 3D Café',
     desc: 'An immersive 3D-themed café website.',
-    poster: 'Matcha thumbnail.png',
+    poster: 'Matcha thumbnail.webp',
     link: 'https://matcha3d.anamadarshreddy.workers.dev/',
     videoSrc: '',
     vimeoUrl: ''
@@ -2831,8 +3647,10 @@ function initCoverflowCarousel() {
 
       if (item.link) {
         card.href = item.link;
-        card.target = '_blank';
-        card.rel = 'noopener noreferrer';
+        if (!item.link.startsWith('#')) {
+          card.target = '_blank';
+          card.rel = 'noopener noreferrer';
+        }
       }
 
       if (item.videoSrc) {
@@ -3149,27 +3967,126 @@ function initLightbox() {
   const lightboxImg = document.getElementById('lightbox-img');
   const caption = document.getElementById('lightbox-caption');
   const closeBtn = document.getElementById('close-lightbox');
+  const prevBtn = document.getElementById('lb-prev');
+  const nextBtn = document.getElementById('lb-next');
+  if (!lightbox || !lightboxImg) return;
 
-  const targets = document.querySelectorAll('.cert-img-frame, .proj-img-item');
-  targets.forEach(el => {
-    el.addEventListener('click', () => {
-      const img = el.querySelector('img');
-      if(!img) return;
-      lightbox.style.display = 'flex';
-      lightboxImg.src = img.src;
-      caption.textContent = img.alt || '';
-      document.body.style.overflow = 'hidden';
-    });
-  });
+  let group = [];      // images that can be stepped through (case-study screens)
+  let index = 0;
+  let opener = null;   // element to return keyboard focus to
 
-  function close() {
-    lightbox.style.display = 'none';
-    document.body.style.overflow = '';
+  function show(img, isPhone) {
+    lightboxImg.src = img.currentSrc || img.src;
+    lightboxImg.alt = img.alt || '';
+    lightboxImg.classList.toggle('lb-phone', !!isPhone);
+    caption.textContent = img.alt || '';
+    // replay the zoom-in animation for each new image
+    lightboxImg.style.animation = 'none'; void lightboxImg.offsetWidth; lightboxImg.style.animation = '';
   }
 
-  if(closeBtn) closeBtn.addEventListener('click', close);
-  if(lightbox) lightbox.addEventListener('click', e => { if(e.target === lightbox) close(); });
-  document.addEventListener('keydown', e => { if(e.key === 'Escape') close(); });
+  function open(el) {
+    const img = el.querySelector('img');
+    if (!img) return;
+    opener = el;
+    if (el.hasAttribute('data-cs-group')) {
+      group = [...document.querySelectorAll('[data-cs-group]')];
+      index = group.indexOf(el);
+    } else {
+      group = [];
+    }
+    lightbox.classList.toggle('has-group', group.length > 1);
+    show(img, el.hasAttribute('data-cs-phone'));
+    lightbox.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    if (closeBtn) closeBtn.focus({ preventScroll: true });
+  }
+
+  function step(dir) {
+    if (group.length < 2) return;
+    index = (index + dir + group.length) % group.length;
+    const el = group[index];
+    show(el.querySelector('img'), el.hasAttribute('data-cs-phone'));
+  }
+
+  function close() {
+    if (lightbox.style.display !== 'flex') return;
+    lightbox.style.display = 'none';
+    document.body.style.overflow = '';
+    if (opener) opener.focus({ preventScroll: true });
+  }
+
+  document.querySelectorAll('.cert-img-frame, .proj-img-item').forEach(el => {
+    el.setAttribute('role', 'button');
+    el.setAttribute('tabindex', '0');
+    el.addEventListener('click', () => open(el));
+    el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(el); } });
+  });
+  document.querySelectorAll('.cs-zoom').forEach(el => el.addEventListener('click', () => open(el)));
+
+  if (closeBtn) closeBtn.addEventListener('click', close);
+  if (prevBtn) prevBtn.addEventListener('click', e => { e.stopPropagation(); step(-1); });
+  if (nextBtn) nextBtn.addEventListener('click', e => { e.stopPropagation(); step(1); });
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) close(); });
+  document.addEventListener('keydown', e => {
+    if (lightbox.style.display !== 'flex') return;
+    if (e.key === 'Escape') close();
+    else if (e.key === 'ArrowRight') step(1);
+    else if (e.key === 'ArrowLeft') step(-1);
+  });
+}
+
+/* ─── CASE STUDY: count-up numbers + build-steps progress rail ─────── */
+function initCaseStudy() {
+  const section = document.getElementById('clinic-desk');
+  if (!section) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Numbers count up once when they come into view (final values are already in the HTML).
+  const nums = section.querySelectorAll('[data-count]');
+  if (!reduce && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        obs.unobserve(entry.target);
+        const el = entry.target;
+        const end = parseInt(el.dataset.count, 10) || 0;
+        if (end === 0) return;
+        const dur = 1400;
+        const t0 = performance.now();
+        const tick = now => {
+          const p = Math.min(1, (now - t0) / dur);
+          el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3)));
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        el.textContent = '0';
+        requestAnimationFrame(tick);
+      });
+    }, { threshold: 0.6 });
+    nums.forEach(n => io.observe(n));
+  }
+
+  // The vertical rail fills as you read through the six steps; each step lights up as you reach it.
+  const timeline = document.getElementById('cs-steps');
+  const fill = document.getElementById('cs-rail-fill');
+  const steps = section.querySelectorAll('.cs-step');
+  if (!timeline || !fill) return;
+  if (reduce || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+    fill.style.transform = 'scaleY(1)';
+    steps.forEach(s => s.classList.add('is-active'));
+    return;
+  }
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.to(fill, {
+    scaleY: 1, ease: 'none',
+    scrollTrigger: { trigger: timeline, start: 'top 60%', end: 'bottom 60%', scrub: 0.4 }
+  });
+  steps.forEach(s => {
+    ScrollTrigger.create({
+      trigger: s, start: 'top 60%',
+      onEnter: () => s.classList.add('is-active'),
+      onLeaveBack: () => s.classList.remove('is-active')
+    });
+  });
 }
 
 
@@ -3376,6 +4293,7 @@ initLightbox();
 initStackingCards();
 initMonitorScrollTrigger();
 initCoverflowCarousel();
+initCaseStudy();
 initMobileNav();
 
 /* Vimeo lightbox close listeners */
